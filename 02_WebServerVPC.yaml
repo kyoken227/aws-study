@@ -43,25 +43,57 @@ Resources:
       VpcId: !Ref MyVPC
       Tags:
       - Key: Name
-        Value: MyVPC-Subnet-A
-  FrontendSubnetRouteTableAssociation:
+        Value: PublicSubnetA
+  PublicSubnetARouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
       SubnetId: !Ref PublicSubnetA
       RouteTableId: !Ref FrontendRouteTable
-  PublicSubnetB:
+  PublicSubnetC:
     Type: AWS::EC2::Subnet
     DependsOn: AttachGateway
     Properties:
-      AvailabilityZone: ap-northeast-1b
+      AvailabilityZone: ap-northeast-1c
       CidrBlock: 10.0.2.0/24
       MapPublicIpOnLaunch: 'true'
       VpcId: !Ref MyVPC
       Tags:
       - Key: Name
-        Value: MyVPC-Subnet-B
-  FrontendSubnetRouteTableAssociation:
+        Value: PublicSubnetC
+  PublicSubnetCRouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
-      SubnetId: !Ref PublicSubnetB
+      SubnetId: !Ref PublicSubnetC
       RouteTableId: !Ref FrontendRouteTable
+  BackendRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref MyVPC
+  PrivateSubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: ap-northeast-1a
+      CidrBlock: 10.0.3.0/24
+      VpcId: !Ref MyVPC
+      Tags:
+      - Key: Name
+        Value: PrivateSubnetA
+  PrivateSubnetARouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnetA
+      RouteTableId: !Ref BackendRouteTable
+  PrivateSubnetC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: ap-northeast-1c
+      CidrBlock: 10.0.4.0/24
+      VpcId: !Ref MyVPC
+      Tags:
+      - Key: Name
+        Value: PrivateSubnetC
+  PrivateSubnetCRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnetC
+      RouteTableId: !Ref BackendRouteTable
