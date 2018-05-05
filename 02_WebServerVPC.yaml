@@ -37,7 +37,10 @@ Resources:
     Type: AWS::EC2::Subnet
     DependsOn: AttachGateway
     Properties:
-      AvailabilityZone: ap-northeast-1a
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: !Ref 'AWS::Region'
       CidrBlock: 10.0.1.0/24
       MapPublicIpOnLaunch: 'true'
       VpcId: !Ref MyVPC
@@ -53,7 +56,10 @@ Resources:
     Type: AWS::EC2::Subnet
     DependsOn: AttachGateway
     Properties:
-      AvailabilityZone: ap-northeast-1c
+      AvailabilityZone:
+        Fn::Select:
+          - 2
+          - Fn::GetAZs: !Ref 'AWS::Region'
       CidrBlock: 10.0.2.0/24
       MapPublicIpOnLaunch: 'true'
       VpcId: !Ref MyVPC
@@ -72,7 +78,10 @@ Resources:
   PrivateSubnetA:
     Type: AWS::EC2::Subnet
     Properties:
-      AvailabilityZone: ap-northeast-1a
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: !Ref 'AWS::Region'
       CidrBlock: 10.0.3.0/24
       VpcId: !Ref MyVPC
       Tags:
@@ -86,7 +95,10 @@ Resources:
   PrivateSubnetC:
     Type: AWS::EC2::Subnet
     Properties:
-      AvailabilityZone: ap-northeast-1c
+      AvailabilityZone:
+        Fn::Select:
+          - 2
+          - Fn::GetAZs: !Ref 'AWS::Region'
       CidrBlock: 10.0.4.0/24
       VpcId: !Ref MyVPC
       Tags:
