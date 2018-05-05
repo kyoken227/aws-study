@@ -1,0 +1,32 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  WebServerSG:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupName: WebServerSG
+      GroupDescription: permit ssh and http
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIP: 0.0.0.0/22
+      VpcId: vpc-d18befb6
+
+  WebServerA:
+    Type: "AWS::EC2::Instance"
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: !Ref 'AWS::Region'
+      ImageId: ami-8fbab2f3
+      InstanceInitiatedShutdownBehavior: Stop
+      InstanceType: t2.medium
+      KeyName: mykey
+      Monitoring: false
+      SecurityGroupIds:
+        - !Ref WebServerSG
+      SourceDestCheck: True
+      SubnetId: subnet-559aad1c
+      Tags:
+        - WebServerA

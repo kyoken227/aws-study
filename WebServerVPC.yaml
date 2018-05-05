@@ -75,6 +75,9 @@ Resources:
     Type: AWS::EC2::RouteTable
     Properties:
       VpcId: !Ref MyVPC
+      Tags:
+      - Key: Name
+        Value: MyVPC-BackendRoute
   PrivateSubnetA:
     Type: AWS::EC2::Subnet
     Properties:
